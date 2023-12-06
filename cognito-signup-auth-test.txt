@@ -1,0 +1,79 @@
+aws cognito-idp sign-up \
+  --region us-east-1 \
+  --client-id 1aeb91uvrpou5fqjbctnm8vp4m \
+  --username tony.samsom@asica.ca \
+  --password Passw0rd!
+
+aws cognito-idp admin-confirm-sign-up \
+  --region us-east-1 \
+  --user-pool-id us-east-1_lPheG1U2u \
+  --username tony.samsom@asica.ca
+
+  pnpm dlx aws-api-gateway-cli-test \
+--user-pool-id='us-east-1_lPheG1U2u' \
+--app-client-id='1aeb91uvrpou5fqjbctnm8vp4m' \
+--cognito-region='us-east-1' \
+--identity-pool-id='us-east-1:66fbd63f-5da7-4985-a67a-b87addb937f2' \
+--invoke-url='https://wam7t9gnrg.execute-api.us-east-1.amazonaws.com' \
+--api-gateway-region='us-east-1' \
+--username='tony.samsom@asica.ca' \
+--password='Passw0rd!' \
+--path-template='/notes' \
+--method='GET' \
+--body='{"content":"hello world","attachment":"hello.jpg"}'
+
+  pnpm dlx aws-api-gateway-cli-test \
+--user-pool-id='us-east-1_WKnHF6DEv' \
+--app-client-id='1bj7ts1smdkikdb4d5efic6mbg' \
+--cognito-region='us-east-1' \
+--identity-pool-id='us-east-1:a9e9e201-82aa-4a36-8915-2f106ac8c11c' \
+--invoke-url='https://rqdumdmtx9.execute-api.us-east-1.amazonaws.com' \
+--api-gateway-region='us-east-1' \
+--username='tony.samsom@asica.ca' \
+--password='Passw0rd!' \
+--path-template='/billing' \
+--method='POST' \
+--body='{"source":"tok_visa","storage":21}'
+
+
+let AmplifyConfig = 
+{
+  "aws_project_region": "us-east-1",
+  "aws_cognito_identity_pool_id": "us-east-1:a1374857-f705-49ab-9e76-fbeeadb4e92c",
+  "aws_cognito_region": "us-east-1",
+  "aws_user_pools_id": "us-east-1_40n88IwoL",
+  "aws_user_pools_web_client_id": "57lco1l0h1bdt178q2hhbhak1o",
+  "oauth": {},
+  "aws_cognito_username_attributes": [
+    "EMAIL"
+  ],
+  "aws_cognito_social_providers": [],
+  "aws_cognito_signup_attributes": [],
+  "aws_cognito_mfa_configuration": "OFF",
+  "aws_cognito_mfa_types": [],
+  "aws_cognito_password_protection_settings": {
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": [
+      "REQUIRES_LOWERCASE",
+      "REQUIRES_UPPERCASE",
+      "REQUIRES_NUMBERS",
+      "REQUIRES_SYMBOLS"
+    ]
+  },
+
+
+     const lfunc = new Function(stack, "MyFunction1", {
+        handler: "src/functions/lambda.handler",
+        url: true,
+      });
+    
+      const sv4lfunc = new Function(stack, "MyFunction2", {
+        handler: "src/functions/sv4lambda.handler",
+        url: {
+          authorizer: "iam",
+          cors: {
+            allowMethods: ["GET", "POST"],
+            allowOrigins: ["*"],
+          },
+        },
+      });
