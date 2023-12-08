@@ -24,8 +24,16 @@ export default {
           },
       });
 
+      const lfunc = new Function(stack, "Function", {
+        handler: "src/functions/python/mylambda.lambda_handler",
+        url: {
+          authorizer: "iam",
+        },
+        runtime: "python3.11",
+      });
+
       auth.attachPermissionsForAuthUsers(stack, [
-        api,
+        api, lfunc, 
       ]);
 
       const site = new SvelteKitSite(stack, "site" , {
@@ -35,6 +43,7 @@ export default {
           VITE_USER_POOL_CLIENT_ID: auth.userPoolClientId,
           VITE_IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",
           VITE_URL: api.url,
+          VITE_LFUNC: lfunc.url || " ",
 
         },
       });
@@ -42,6 +51,7 @@ export default {
       stack.addOutputs({
         url: site.url,
         api: api.url,
+        lfunc: lfunc.url,
       });
     
     });

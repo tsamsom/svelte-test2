@@ -33,9 +33,15 @@ let AmplifyConfig =
   ],
   "aws_cloud_logic_custom": [
     {
-      "name": "myrest",
+      "name": "myapi",
       "endpoint":  import.meta.env.VITE_URL,
       "region": import.meta.env.VITE_REGION
+    },
+    {
+      "name": "mylambda",
+      "endpoint":  import.meta.env.VITE_LFUNC,
+      "region": import.meta.env.VITE_REGION,
+      "service": "lambda"
     }
   ]
 };

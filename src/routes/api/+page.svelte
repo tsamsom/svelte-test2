@@ -1,14 +1,14 @@
 <script lang=ts>
 
-import { get } from 'aws-amplify/api';
+import { get, post } from 'aws-amplify/api';
  
 let base_str = "";
 let book_str = "";
 
-async function getbase() {
+async function getapi() {
   try {
     const restOperation = get({ 
-      apiName: 'myrest',
+      apiName: 'myapi',
       path: '/notes',
     });
     const response = await restOperation.response;
@@ -21,17 +21,20 @@ async function getbase() {
  
 }
 
-async function getauth() {
+async function postlambda() {
   try {
-    const restOperation = get({ 
-      apiName: 'myrest',
-      path: '/auth' 
+    const restOperation = post({ 
+      apiName: 'mylambda',
+      path: '' ,
+      options: {
+        body: '{ "key1": "value1"}'
+      }
     });
     const response = await restOperation.response;
-    console.log('GET call succeeded: ', response);
+    console.log('POST call succeeded: ', response);
     book_str = await JSON.stringify(response);
   } catch (error) {
-    console.log('GET call failed: ', error);
+    console.log('POST call failed: ', error);
   }
 }
 
@@ -56,11 +59,11 @@ async function currentAuthenticatedUser() {
 
     <h3> ...</h3>
     
-    <button on:click={getbase}>Press to hit api gateway "getbase" </button>
+    <button on:click={getapi}>Press for (get) to api gateway</button>
     
     <h3> base_str : {base_str} ...</h3>
 
-    <button on:click={getauth}>Press to hit api gateway "getauth" </button>
+    <button on:click={postlambda}>Press for (post) to lambda function</button>
     
 
     <h3> auth_str : {book_str} ...</h3>
