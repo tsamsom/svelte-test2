@@ -11,10 +11,9 @@ async function getapi() {
       apiName: 'myapi',
       path: '/notes',
     });
-    const response = await restOperation.response;
-    console.log('GET call succeeded: ', response);
-    base_str = await JSON.stringify(response);
-    console.log('base_str', base_str);
+    const { body } = await restOperation.response;
+    const str = await body.text();
+    console.log(" getapi return", str);
   } catch (error) {
     console.log('GET call failed: ', error);
   }
@@ -23,16 +22,15 @@ async function getapi() {
 
 async function postlambda() {
   try {
-    const restOperation = post({ 
+    const { body } = await post({ 
       apiName: 'mylambda',
       path: '' ,
       options: {
         body: '{ "key1": "value1"}'
       }
-    });
-    const response = await restOperation.response;
-    console.log('POST call succeeded: ', response);
-    book_str = await JSON.stringify(response);
+    }).response;
+    const data = await body.json();
+    console.log(data);
   } catch (error) {
     console.log('POST call failed: ', error);
   }

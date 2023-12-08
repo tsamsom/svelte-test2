@@ -24,12 +24,16 @@ export default {
           },
       });
 
+      let dbKey = "Database Key";
       const lfunc = new Function(stack, "Function", {
         handler: "src/functions/python/mylambda.lambda_handler",
         url: {
           authorizer: "iam",
         },
         runtime: "python3.11",
+        environment: {
+          DB_KEY: dbKey,
+        },
       });
 
       auth.attachPermissionsForAuthUsers(stack, [
